@@ -254,29 +254,29 @@ class MiscEndPointsRegionalDomainTest extends TestCase
     public function test_behaviour_post()
     {
         $array = [
-            'students'      => [
+            'students' => [
                 [
-                    'student_id'  => 'A1039521228',
-                    'role'        => 'AG',
-                    'action'      => 'COOL',
+                    'student_id' => 'A1039521228',
+                    'role' => 'AG',
+                    'action' => 'COOL',
                     'action_date' => '2016-04-01',
-                    'points'      => 200,
+                    'points' => 200,
                 ],
                 [
                     'student_id' => 'A870869351',
-                    'role'       => 'TA',
-                    'points'     => 2,
+                    'role' => 'TA',
+                    'points' => 2,
                 ],
             ],
-            'employee_id'   => 'A1375078684',
-            'date'          => '2016-03-31',
-            'status'        => 'REV2',
-            'type'          => 'BULL',
+            'employee_id' => 'A1375078684',
+            'date' => '2016-03-31',
+            'status' => 'REV2',
+            'type' => 'BULL',
             'bullying_type' => 'B_INT',
-            'comment'       => 'Bulling incident',
+            'comment' => 'Bulling incident',
             'activity_type' => 'RE',
-            'location'      => 'CORR',
-            'time'          => 'LUN',
+            'location' => 'CORR',
+            'time' => 'LUN',
         ];
 
         try {
@@ -289,18 +289,18 @@ class MiscEndPointsRegionalDomainTest extends TestCase
     public function test_achievement_post()
     {
         $array = [
-            'students'      => [
+            'students' => [
                 [
                     'student_id' => 'A1039521228',
-                    'points'     => 200,
-                    'award'      => 'TROP',
+                    'points' => 200,
+                    'award' => 'TROP',
                     'award_date' => '2016-04-05',
                 ],
             ],
-            'employee_id'   => 'A1375078684',
-            'date'          => '2016-04-04',
-            'type'          => 'NYPA',
-            'comment'       => 'A4',
+            'employee_id' => 'A1375078684',
+            'date' => '2016-04-04',
+            'type' => 'NYPA',
+            'comment' => 'A4',
             'activity_type' => 'RE',
         ];
 

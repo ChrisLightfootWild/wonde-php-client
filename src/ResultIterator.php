@@ -1,4 +1,8 @@
-<?php namespace Wonde;
+<?php
+
+declare(strict_types=1);
+
+namespace Wonde;
 
 use Wonde\Endpoints\BootstrapEndpoint;
 

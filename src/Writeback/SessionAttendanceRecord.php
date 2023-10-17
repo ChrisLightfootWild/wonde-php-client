@@ -1,4 +1,8 @@
-<?php namespace Wonde\Writeback;
+<?php
+
+declare(strict_types=1);
+
+namespace Wonde\Writeback;
 
 use Wonde\Exceptions\InvalidAttendanceException;
 use Wonde\Exceptions\InvalidInputException;
@@ -196,9 +200,9 @@ class SessionAttendanceRecord
     public function toArray()
     {
         $required = [
-            'date'               => $this->getDate(),
-            'session'            => $this->getSession(),
-            'student_id'         => $this->getStudentId(),
+            'date' => $this->getDate(),
+            'session' => $this->getSession(),
+            'student_id' => $this->getStudentId(),
             'attendance_code_id' => $this->getAttendanceCodeId()
         ];
 
@@ -207,7 +211,7 @@ class SessionAttendanceRecord
         if ( ! empty($comment)) {
             $required['comment'] = $comment;
         }
-        
+
         $employeeId = $this->getEmployeeId();
 
         if ( ! empty($employeeId)) {

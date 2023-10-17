@@ -1,4 +1,8 @@
-<?php namespace Wonde\Writeback;
+<?php
+
+declare(strict_types=1);
+
+namespace Wonde\Writeback;
 
 use Wonde\Exceptions\InvalidAttendanceException;
 use Wonde\Writeback\SessionAttendanceRecord;

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wonde;
 
 use Wonde\Endpoints\AttendanceCodes;
 use Wonde\Endpoints\BootstrapEndpoint;
+use Wonde\Endpoints\Meta;
 use Wonde\Endpoints\Schools;
 use Wonde\Exceptions\InvalidTokenException;
-use Wonde\Endpoints\Meta;
 
 /**
  * @property Schools schools

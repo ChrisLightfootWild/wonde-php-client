@@ -1,4 +1,8 @@
-<?php namespace Wonde\Writeback;
+<?php
+
+declare(strict_types=1);
+
+namespace Wonde\Writeback;
 
 use Wonde\Exceptions\InvalidLessonAttendanceException;
 
@@ -109,8 +113,8 @@ class LessonAttendanceRecord
     public function toArray()
     {
         $required = [
-            'lesson_id'          => $this->getLessonId(),
-            'student_id'         => $this->getStudentId(),
+            'lesson_id' => $this->getLessonId(),
+            'student_id' => $this->getStudentId(),
             'attendance_code_id' => $this->getAttendanceCodeId()
         ];
 
