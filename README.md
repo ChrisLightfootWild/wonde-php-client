@@ -1,32 +1,32 @@
 # Wonde PHP Client
 
-Documentation https://wonde.com/docs/api/1.0/
+Documentation https://docs.wonde.com/docs/api/sync/
 
 ## Installation
 
-Requires PHP 7.2.5+ (including PHP 8.0)
+Requires PHP 8.1+
 
 Using Composer:
 
-```json
-{
-  "require": {
-    "wondeltd/php-client": "3.*"
-  }
-}
+```bash
+composer require wondeltd/php-client
 ```
 
 or
 
-```bash
-composer require wondeltd/php-client
+```json
+{
+  "require": {
+    "wondeltd/php-client": "4.x-dev"
+  }
+}
 ```
 
 ## Early Release
 
 If you wish to get early access to new endpoints / improvements please set your package version to `dev-master`.
 
-**Important Note:** Wonde strongly recommends locking to a stable version on production.
+**Important Note:** Wonde *strongly* recommends locking to a stable version on production.
 
 ## Endpoints
 
@@ -171,18 +171,18 @@ $client = new \Wonde\Client('TOKEN_GOES_HERE');
 $school = $client->school('SCHOOL_ID_GOES_HERE');
 
 $array = [
-    'students'      => [
+    'students' => [
         [
             'student_id' => 'A1039521228',
-            'points'     => 200,
-            'award'      => 'TROP',
+            'points' => 200,
+            'award' => 'TROP',
             'award_date' => '2016-04-05',
         ],
     ],
-    'employee_id'   => 'A1375078684',
-    'date'          => '2016-04-04',
-    'type'          => 'NYPA',
-    'comment'       => 'A4',
+    'employee_id' => 'A1375078684',
+    'date' => '2016-04-04',
+    'type' => 'NYPA',
+    'comment' => 'A4',
     'activity_type' => 'RE',
 ];
 
@@ -343,29 +343,29 @@ $client = new \Wonde\Client('TOKEN_GOES_HERE');
 $school = $client->school('SCHOOL_ID_GOES_HERE');
 
 $array = [
-    'students'      => [
+    'students' => [
         [
-            'student_id'  => 'A1039521228',
-            'role'        => 'AG',
-            'action'      => 'COOL',
+            'student_id' => 'A1039521228',
+            'role' => 'AG',
+            'action' => 'COOL',
             'action_date' => '2016-04-01',
-            'points'      => 200,
+            'points' => 200,
         ],
         [
             'student_id' => 'A870869351',
-            'role'       => 'TA',
-            'points'     => 2,
+            'role' => 'TA',
+            'points' => 2,
         ],
     ],
-    'employee_id'   => 'A1375078684',
-    'date'          => '2016-03-31',
-    'status'        => 'REV2',
-    'type'          => 'BULL',
+    'employee_id' => 'A1375078684',
+    'date' => '2016-03-31',
+    'status' => 'REV2',
+    'type' => 'BULL',
     'bullying_type' => 'B_INT',
-    'comment'       => 'Bulling incident',
+    'comment' => 'Bulling incident',
     'activity_type' => 'RE',
-    'location'      => 'CORR',
-    'time'          => 'LUN',
+    'location' => 'CORR',
+    'time' => 'LUN',
 ];
 
 try {
