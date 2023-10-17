@@ -1,4 +1,8 @@
-<?php namespace Wonde\Endpoints;
+<?php
+
+declare(strict_types=1);
+
+namespace Wonde\Endpoints;
 
 use Wonde\Writeback\SessionRegister;
 
