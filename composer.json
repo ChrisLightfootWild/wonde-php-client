@@ -9,6 +9,10 @@
     {
       "name": "Philip Clifton",
       "email": "pclifton@wonde.com"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://github.com/wondeltd/php-client/graphs/contributors"
     }
   ],
   "require": {
