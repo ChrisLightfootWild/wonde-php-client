@@ -1,8 +1,7 @@
-/vendor
-vendor/
-vendor/*
-composer.lock
-composer.phar
-.token
 .school
-.idea
+.token
+/.idea
+/.phpunit.result.cache
+/composer.lock
+/composer.phar
+/vendor
