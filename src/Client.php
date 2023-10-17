@@ -35,10 +35,7 @@ class Client
      */
     private $token;
 
-    /**
-     * @var string
-     */
-    const version = '3.1.1';
+    public const VERSION = '3.1.1';
 
     /**
      * @var string
