@@ -1,4 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
+namespace Wonde\Tests;
+
 use PHPUnit\Framework\TestCase;
 
 class MiscEndPointsTest extends TestCase
@@ -303,4 +308,3 @@ class MiscEndPointsTest extends TestCase
         }
     }
 }
-

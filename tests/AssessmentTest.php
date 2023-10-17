@@ -1,4 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
+namespace Wonde\Tests;
+
 use PHPUnit\Framework\TestCase;
 
 class AssessmentTest extends TestCase
