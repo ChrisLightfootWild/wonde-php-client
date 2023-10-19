@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Wonde\Exceptions;
+
 class ValidationError extends \Exception
 {
     private $errors;
