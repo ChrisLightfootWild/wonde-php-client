@@ -13,4 +13,14 @@ class Region
         public readonly Identifiers $identifiers,
     ) {
     }
+
+    public static function fromData(array $data): self
+    {
+        return new self(
+            code: $data['code'],
+            domain: $data['domain'],
+            schoolUrl: $data['school_url'],
+            identifiers: Identifiers::fromData($data['identifiers']),
+        );
+    }
 }

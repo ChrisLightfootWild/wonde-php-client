@@ -14,4 +14,18 @@ class PostalAddress
         public Country $country,
     ) {
     }
+
+    public static function fromData(array $data): self
+    {
+        return new self(
+            $data['address_line_1'],
+            $data['address_line_2'],
+            $data['address_town'],
+            $data['address_postcode'],
+            new Country(
+                $data['address_country']['code'],
+                $data['address_country']['name'],
+            ),
+        );
+    }
 }

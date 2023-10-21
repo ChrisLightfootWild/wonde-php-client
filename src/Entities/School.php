@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Wonde\Entities;
 
 use DateTimeZone;
+use Wonde\Entities\School\Country;
 use Wonde\Entities\School\EstablishmentNumber;
 use Wonde\Entities\School\Extended;
 use Wonde\Entities\School\PhaseOfEducation;
@@ -40,6 +41,9 @@ class School
             laCode: $data['la_code'],
             timeZone: ($data['timezone'] ?? null) ? new DateTimeZone($data['timezone']) : null,
             mis: $data['mis'] ?? null,
+            address: PostalAddress::fromData($data['address']),
+            extended: Extended::fromData($data['extended']),
+            region: Region::fromData($data['region']),
         );
     }
 }

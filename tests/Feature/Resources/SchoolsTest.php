@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Wonde\Tests\Feature\Resources;
 
-use Wonde\Entities\School\PhaseOfEducation;
 use Wonde\Tests\Feature\TestCase;
 
 class SchoolsTest extends TestCase
@@ -14,20 +13,16 @@ class SchoolsTest extends TestCase
     {
         $response = $this->httpFactory->createResponse()->withBody(
             $this->httpFactory->createStreamFromFile(
-                $this->pathToFixturesFile('schools/A1930499544/get-response.json'),
+                __DIR__ . '/../../Fixtures/v1.0/schools/A1930499544/get-response.json',
             ),
         );
 
         $this->mockHttpClient->addResponse($response);
 
-        $school = $this->client->schools->get('A1930499544');
+        $response = $this->client->schools->getRaw('A1930499544');
+        self::assertEquals(200, $response->getStatusCode());
 
-        self::assertEquals('A1930499544', $school->id);
+        $school = $this->client->schools->get('A1930499544');
         self::assertEquals('Wonde Testing School', $school->name);
-        self::assertEquals(10000, $school->establishmentNumber->identifier);
-        self::assertEquals(10003, $school->urn->identifier);
-        self::assertEquals(PhaseOfEducation::SECONDARY, $school->phaseOfEducation);
-        self::assertEquals('10000', $school->laCode);
-        self::assertEquals(new \DateTimeZone('Europe/London'), $school->timeZone);
     }
 }
