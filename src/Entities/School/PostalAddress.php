@@ -8,7 +8,7 @@ class PostalAddress
 {
     public function __construct(
         public string $line1,
-        public string $line2,
+        public ?string $line2,
         public string $town,
         public string $postcode,
         public Country $country,
