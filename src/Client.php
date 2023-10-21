@@ -4,95 +4,79 @@ declare(strict_types=1);
 
 namespace Wonde;
 
-use Wonde\Endpoints\AttendanceCodes;
-use Wonde\Endpoints\BootstrapEndpoint;
-use Wonde\Endpoints\Meta;
-use Wonde\Endpoints\Schools;
-use Wonde\Exceptions\InvalidTokenException;
+use Http\Client\Common\Plugin\AuthenticationPlugin;
+use Http\Client\Common\Plugin\DecoderPlugin;
+use Http\Client\Common\Plugin\HeaderSetPlugin;
+use Http\Client\Common\PluginClient;
+use Http\Client\HttpAsyncClient;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Http\Message\Authentication\Bearer;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Wonde\Resources\AttendanceCodes;
+use Wonde\Resources\Meta;
+use Wonde\Resources\Schools;
 
-/**
- * @property Schools schools
- */
 class Client
 {
-    /**
-     * @var AttendanceCodes
-     */
-    public $attendanceCodes;
+    public const VERSION = '4.x';
 
-    /**
-     * @var Meta
-     */
-    public $meta;
+    public AttendanceCodes $attendanceCodes;
+    public Meta $meta;
+    public Schools $schools;
 
-    /**
-     * @var Schools
-     */
-    public $schools;
+    public readonly ClientOptions $options;
+    public readonly HttpAsyncClient $httpAsyncClient;
+    public readonly LoggerInterface $logger;
+    public readonly RequestFactoryInterface $requestFactory;
+    public readonly StreamFactoryInterface $streamFactory;
+    public readonly UriFactoryInterface $uriFactory;
 
-    /**
-     * @var string
-     */
-    private $token;
+    private readonly ClientToken $token;
 
-    public const VERSION = '3.1.1';
+    public function __construct(
+        ClientToken|string $token,
+        ?ClientOptions $options = null,
+        LoggerInterface $logger = null,
+        ?HttpAsyncClient $httpAsyncClient = null,
+        ?RequestFactoryInterface $requestFactory = null,
+        ?StreamFactoryInterface $streamFactory = null,
+        ?UriFactoryInterface $uriFactory = null,
+    ) {
+        $this->token = $token instanceof ClientToken ? $token : new ClientToken($token);
+        $this->options = $options ?? new ClientOptions();
+        $this->logger = $logger ?? new NullLogger();
 
-    /**
-     * @var string
-     */
-    private $logPath = '';
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
 
-    /**
-     * Client constructor.
-     */
-    public function __construct($token, $logPath = '')
-    {
-         if (empty($token) or !is_string($token)) {
-            throw new InvalidTokenException('Token string is required');
-        }
+        $this->buildClient(
+            $httpAsyncClient ?? Psr18ClientDiscovery::find(),
+        );
 
-        $this->token           = $token;
-        $this->schools         = new Schools($token, false, $logPath);
-        $this->meta            = new Meta($token, false, $logPath);
-        $this->attendanceCodes = new AttendanceCodes($token, false, $logPath);
-        $this->logPath = $logPath;
+        $this->buildServices();
     }
 
-    /**
-     * Return endpoints for single school
-     *
-     * @param $id
-     * @return Schools
-     */
-    public function school($id)
+    protected function buildClient(HttpAsyncClient $httpClient): void
     {
-        if(!empty($this->logPath)) {
-            $this->logPath .= DIRECTORY_SEPARATOR . $id;
-        }
-        return new Schools($this->token, $id, $this->logPath);
+        $this->httpAsyncClient = new PluginClient($httpClient, [
+            new AuthenticationPlugin(new Bearer($this->token)),
+            new DecoderPlugin(),
+            new HeaderSetPlugin([
+                'User-Agent' => 'wonde-php-client-' . static::VERSION,
+            ]),
+        ]);
     }
 
-    /**
-     * Request access to the current school
-     *
-     * @return \stdClass
-     */
-    public function requestAccess($schoolId, $payload = [])
+    protected function buildServices(): void
     {
-        $uri = 'schools/' . $schoolId . '/request-access';
-
-        return (new BootstrapEndpoint($this->token, $uri))->post($payload);
-    }
-
-    /**
-     * Revoke access to the current school
-     *
-     * @return \stdClass
-     */
-    public function revokeAccess($schoolId)
-    {
-        $uri = 'schools/' . $schoolId . '/revoke-access';
-
-        return (new BootstrapEndpoint($this->token, $uri))->deleteRequestReturnBody($uri);
+        $this->attendanceCodes = new AttendanceCodes($this);
+        $this->meta = new Meta($this);
+        $this->schools = new Schools($this);
     }
 }
