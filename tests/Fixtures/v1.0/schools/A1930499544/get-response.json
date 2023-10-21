@@ -1,0 +1,47 @@
+{
+  "data": {
+    "id": "A1930499544",
+    "name": "Wonde Testing School",
+    "establishment_number": "10000",
+    "urn": 10003,
+    "phase_of_education": "SECONDARY",
+    "la_code": "10000",
+    "timezone": "Europe/London",
+    "mis": "SIMS",
+    "address": {
+      "address_line_1": "Address Line 1",
+      "address_line_2": "Address Line 2",
+      "address_town": "Address Town",
+      "address_postcode": "CB8 7SG",
+      "address_country": {
+        "code": "GBR",
+        "name": "England"
+      }
+    },
+    "extended": {
+      "allows_writeback": true,
+      "has_timetables": true,
+      "has_lesson_attendance": true,
+      "audit_approved_at": {
+        "date": "2022-01-28 15:45:10",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    "region": {
+      "code": "GBR",
+      "domain": "api.wonde.com",
+      "school_url": "https://api.wonde.com/v1.0/schools/A1930499544",
+      "identifiers": {
+        "la_code": "10000",
+        "establishment_number": "10000",
+        "urn": 10003
+      }
+    }
+  },
+  "meta": {
+    "includes": [
+      "cbds"
+    ]
+  }
+}

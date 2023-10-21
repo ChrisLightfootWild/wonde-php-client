@@ -8,4 +8,5 @@ enum PhaseOfEducation: string
 {
     case NOT_APPLICABLE = 'NOT APPLICABLE';
     case PRIMARY = 'PRIMARY';
+    case SECONDARY = 'SECONDARY';
 }

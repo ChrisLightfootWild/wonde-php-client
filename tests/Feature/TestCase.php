@@ -27,4 +27,9 @@ class TestCase extends BaseTestCase
             httpAsyncClient: $this->mockHttpClient,
         );
     }
+
+    protected function pathToFixturesFile(string $filename, string $version = 'v1.0'): string
+    {
+        return __DIR__ . "/../Fixtures/{$version}/" . $filename;
+    }
 }
