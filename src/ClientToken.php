@@ -16,7 +16,7 @@ class ClientToken
         public readonly string $secret,
     )
     {
-        if (empty($token)) {
+        if (empty($secret)) {
             throw new InvalidTokenException('Token string is required');
         }
     }

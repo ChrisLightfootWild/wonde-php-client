@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit;
+namespace Wonde\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Wonde\ClientToken;
