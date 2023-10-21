@@ -8,9 +8,9 @@ use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\Plugin\DecoderPlugin;
 use Http\Client\Common\Plugin\HeaderSetPlugin;
 use Http\Client\Common\PluginClient;
-use Http\Client\HttpAsyncClient;
+use Http\Client\HttpAsyncClient as HttpAsyncClientInterface;
+use Http\Discovery\HttpAsyncClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Discovery\Psr18ClientDiscovery;
 use Http\Message\Authentication\Bearer;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -30,7 +30,7 @@ class Client
     public Schools $schools;
 
     public readonly ClientOptions $options;
-    public readonly HttpAsyncClient $httpAsyncClient;
+    public readonly HttpAsyncClientInterface $httpAsyncClient;
     public readonly LoggerInterface $logger;
     public readonly RequestFactoryInterface $requestFactory;
     public readonly StreamFactoryInterface $streamFactory;
@@ -42,7 +42,7 @@ class Client
         ClientToken|string $token,
         ?ClientOptions $options = null,
         LoggerInterface $logger = null,
-        ?HttpAsyncClient $httpAsyncClient = null,
+        ?HttpAsyncClientInterface $httpAsyncClient = null,
         ?RequestFactoryInterface $requestFactory = null,
         ?StreamFactoryInterface $streamFactory = null,
         ?UriFactoryInterface $uriFactory = null,
@@ -56,13 +56,13 @@ class Client
         $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
 
         $this->buildClient(
-            $httpAsyncClient ?? Psr18ClientDiscovery::find(),
+            $httpAsyncClient ?? HttpAsyncClientDiscovery::find(),
         );
 
         $this->buildServices();
     }
 
-    protected function buildClient(HttpAsyncClient $httpClient): void
+    protected function buildClient(HttpAsyncClientInterface $httpClient): void
     {
         $this->httpAsyncClient = new PluginClient($httpClient, [
             new AuthenticationPlugin(new Bearer($this->token)),
