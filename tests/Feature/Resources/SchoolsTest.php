@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Wonde\Tests\Feature\Resources;
 
+use Http\Message\RequestMatcher;
+use Psr\Http\Message\RequestInterface;
 use Wonde\Tests\Feature\TestCase;
 
 class SchoolsTest extends TestCase
@@ -17,7 +19,15 @@ class SchoolsTest extends TestCase
             ),
         );
 
-        $this->mockHttpClient->addResponse($response);
+        $this->mockHttpClient->on(new class() implements RequestMatcher {
+            public function matches(RequestInterface $request): bool
+            {
+                return match ($request->getUri()->getPath()) {
+                    'v1.0/schools/A1930499544' => true,
+                    default => false,
+                };
+            }
+        }, $response);
 
         $response = $this->client->schools->getRaw('A1930499544');
         self::assertEquals(200, $response->getStatusCode());
