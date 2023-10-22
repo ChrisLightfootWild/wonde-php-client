@@ -6,4 +6,17 @@ $token = getenv('WONDE_API_TOKEN') ?: die('You must provide WONDE_API_TOKEN');
 
 $client = new Wonde\Client($token);
 
-dump($client->schools->all());
+dump(
+    $schools = $client->schools->all(),
+);
+
+$schools->rewind();
+$school = $schools->current();
+
+dump(
+    $response = $client->school($school)->counts->getRaw(parameters: ['include' => 'classes,employees']),
+    (string) $response->getBody(),
+    $client->school($school)->counts->get(
+        includes: new \Wonde\Resources\QueryParameters\Includes('classes', 'employees', 'students'),
+    ),
+);
