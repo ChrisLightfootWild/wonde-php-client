@@ -2,9 +2,12 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Wonde\Client;
+use Wonde\Resources\QueryParameters\Includes;
+
 $token = getenv('WONDE_API_TOKEN') ?: die('You must provide WONDE_API_TOKEN');
 
-$client = new Wonde\Client($token);
+$client = new Client($token);
 
 dump(
     $schools = $client->schools->approved(),
@@ -17,7 +20,7 @@ dump(
     $response = $client->school($school)->counts->getRaw(parameters: ['include' => 'classes,employees']),
     (string) $response->getBody(),
     $client->school($school)->counts->get(
-        includes: new \Wonde\Resources\QueryParameters\Includes('classes', 'employees', 'students'),
+        includes: new Includes('classes', 'employees', 'students'),
     ),
 );
 
