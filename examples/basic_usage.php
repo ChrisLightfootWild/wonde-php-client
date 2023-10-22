@@ -7,7 +7,7 @@ $token = getenv('WONDE_API_TOKEN') ?: die('You must provide WONDE_API_TOKEN');
 $client = new Wonde\Client($token);
 
 dump(
-    $schools = $client->schools->all(),
+    $schools = $client->schools->approved(),
 );
 
 $schools->rewind();

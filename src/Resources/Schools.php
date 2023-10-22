@@ -20,7 +20,62 @@ class Schools extends Resource
 
     public function all(): SchoolCollection
     {
-        $decoded = $this->decodeJsonBody($this->getRaw('all'));
+        return $this->getSchools('all');
+    }
+
+    public function approved(): SchoolCollection
+    {
+        return $this->getSchools();
+    }
+
+    public function audited(): SchoolCollection
+    {
+        return $this->getSchools('audited');
+    }
+
+    public function offline(): SchoolCollection
+    {
+        return $this->getSchools('offline');
+    }
+
+    public function pending(): SchoolCollection
+    {
+        return $this->getSchools('pending');
+    }
+
+    public function revoked(): SchoolCollection
+    {
+        return $this->getSchools('revoked');
+    }
+
+    public function declined(): SchoolCollection
+    {
+        return $this->getSchools('declined');
+    }
+
+    public function search(): SchoolCollection
+    {
+        return $this->getSchools('search');
+    }
+
+    public function requestAccess(string $schoolId, $payload = [])
+    {
+        // TODO
+    }
+
+    public function revokeAccess(string $schoolId)
+    {
+        // TODO
+    }
+
+    protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
+    {
+        return parent::buildUri("schools/{$path}", $version);
+    }
+
+    private function getSchools(string $path = '', array $parameters = []): SchoolCollection
+    {
+        $decoded = $this->decodeJsonBody($this->getRaw($path, $parameters));
         $schools = [];
 
         foreach ($decoded['data'] as $school) {
@@ -28,55 +83,5 @@ class Schools extends Resource
         }
 
         return new SchoolCollection(...$schools);
-    }
-
-    public function approved(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function audited(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function offline(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function pending(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function revoked(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function declined(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function search(): SchoolCollection
-    {
-        return $this->all();
-    }
-
-    public function requestAccess(string $schoolId, $payload = [])
-    {
-        //
-    }
-
-    public function revokeAccess(string $schoolId)
-    {
-        //
-    }
-
-    protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
-    {
-        return parent::buildUri("schools/{$path}", $version);
     }
 }
