@@ -7,6 +7,7 @@ namespace Wonde\Resources;
 use Psr\Http\Message\UriInterface;
 use Wonde\Entities\Collections\Schools as SchoolCollection;
 use Wonde\Entities\School;
+use Wonde\Entities\School\RequestAccess\Revoked;
 
 class Schools extends Resource
 {
@@ -63,9 +64,11 @@ class Schools extends Resource
         // TODO
     }
 
-    public function revokeAccess(string $schoolId)
+    public function revokeAccess(string $schoolId): Revoked
     {
-        // TODO
+        $json = $this->decodeJsonBody($this->deleteRaw("{$schoolId}/revoke-access"));
+
+        return Revoked::fromData($json);
     }
 
     protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
