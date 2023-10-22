@@ -10,11 +10,6 @@ use Wonde\Entities\Collections\AttendanceCodes as AttendanceCodesCollection;
 
 class AttendanceCodes extends Resource
 {
-    protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
-    {
-        return parent::buildUri('attendance-codes', $version);
-    }
-
     public function get(): AttendanceCodesCollection
     {
         $json = $this->decodeJsonBody($this->getRaw());
@@ -25,5 +20,10 @@ class AttendanceCodes extends Resource
         }
 
         return new AttendanceCodesCollection(...$attendanceCodes);
+    }
+
+    protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
+    {
+        return parent::buildUri('attendance-codes', $version);
     }
 }

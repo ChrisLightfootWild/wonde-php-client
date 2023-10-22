@@ -11,11 +11,6 @@ use Wonde\Resources\QueryParameters\Includes;
 
 class Counts extends SchoolResource
 {
-    protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
-    {
-        return parent::buildUri('counts', $version);
-    }
-
     public function get(Includes $includes = null): ResourceCounter
     {
         $json = $this->decodeJsonBody(
@@ -28,5 +23,10 @@ class Counts extends SchoolResource
         }
 
         return new ResourceCounter(...$counts);
+    }
+
+    protected function buildUri(string $path = '', string $version = 'v1.0'): UriInterface
+    {
+        return parent::buildUri('counts', $version);
     }
 }
