@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Wonde\Resources\QueryParameters;
 
-class Includes
+use Wonde\Contracts\Requests\QueryParameter;
+
+class Includes implements QueryParameter
 {
     private array $resources;
 
@@ -14,8 +16,10 @@ class Includes
         $this->resources = $resource;
     }
 
-    public function __toString(): string
+    public function toQueryString(): array
     {
-        return implode(',', $this->resources);
+        return [
+            'include' => implode(',', $this->resources),
+        ];
     }
 }

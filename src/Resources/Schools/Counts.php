@@ -14,7 +14,7 @@ class Counts extends SchoolResource
     public function get(Includes $includes = null): ResourceCounter
     {
         $json = $this->decodeJsonBody(
-            $this->getRaw(parameters: ['include' => (string) $includes]),
+            $this->getRaw(parameters: $includes->toQueryString()),
         );
 
         $counts = [];
