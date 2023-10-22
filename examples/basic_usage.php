@@ -20,3 +20,7 @@ dump(
         includes: new \Wonde\Resources\QueryParameters\Includes('classes', 'employees', 'students'),
     ),
 );
+
+dump(
+    $client->attendanceCodes->get(),
+);
