@@ -23,4 +23,6 @@ dump(
 
 dump(
     $client->attendanceCodes->get(),
+    // Custom attendance codes, or just the default if none have been set.
+    $client->school($school)->attendanceCodes->get(),
 );
