@@ -38,29 +38,27 @@ class SchoolsTest extends TestCase
         $this->mockHttpClient->on(new class() implements RequestMatcher {
             public function matches(RequestInterface $request): bool
             {
-                $body = json_encode([
-                    'contacts' => [
-                        [
-                            'first_name' => 'hello',
-                            'last_name' => 'world',
-                            'phone_number' => null,
-                            'email_address' => null,
-                            'notes' => null,
-                        ],
-                        [
-                            'first_name' => 'foo',
-                            'last_name' => 'bar',
-                            'phone_number' => null,
-                            'email_address' => 'test@wonde.local',
-                            'notes' => null,
-                        ],
-                    ],
-                ]);
-
                 return (
                     $request->getMethod() === 'POST'
                     && $request->getUri()->getPath() === 'v1.0/schools/TEST-SCHOOL/request-access'
-                    && (string) $request->getBody() === $body
+                    && (string) $request->getBody() === json_encode([
+                        'contacts' => [
+                            [
+                                'first_name' => 'hello',
+                                'last_name' => 'world',
+                                'phone_number' => null,
+                                'email_address' => null,
+                                'notes' => null,
+                            ],
+                            [
+                                'first_name' => 'foo',
+                                'last_name' => 'bar',
+                                'phone_number' => null,
+                                'email_address' => 'test@wonde.local',
+                                'notes' => null,
+                            ],
+                        ],
+                    ])
                 );
             }
         }, function () {
