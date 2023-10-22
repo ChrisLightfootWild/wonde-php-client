@@ -6,6 +6,8 @@ namespace Wonde\Tests\Feature\Resources;
 
 use Http\Message\RequestMatcher;
 use Psr\Http\Message\RequestInterface;
+use Wonde\Entities\Collections\Schools;
+use Wonde\Resources\QueryParameters\UrlParameter;
 use Wonde\Resources\Requests\RequestAccess\Contact;
 use Wonde\Resources\Requests\SchoolAccessRequest;
 use Wonde\Tests\Feature\TestCase;
@@ -112,5 +114,27 @@ class SchoolsTest extends TestCase
         self::assertTrue($revoked->success);
         self::assertEquals('revoked', $revoked->state);
         self::assertEquals('Access revoked', $revoked->message);
+    }
+
+    /** @test */
+    public function it_can_filter_schools()
+    {
+        $this->mockHttpClient->on(new class() implements RequestMatcher {
+            public function matches(RequestInterface $request): bool
+            {
+                return (
+                    $request->getMethod() === 'GET'
+                    && $request->getUri()->getPath() === 'v1.0/schools/all'
+                    && $request->getUri()->getQuery() === 'foo=bar'
+                );
+            }
+        }, fn () => $this->httpFactory->createResponse()->withBody(
+            $this->httpFactory->createStream(json_encode([
+                'data' => [],
+            ])),
+        ));
+
+        $schools = $this->client->schools->search(new UrlParameter('foo', 'bar'));
+        self::assertInstanceOf(Schools::class, $schools);
     }
 }
