@@ -6,7 +6,8 @@ namespace Wonde\Tests\Feature\Resources;
 
 use Http\Message\RequestMatcher;
 use Psr\Http\Message\RequestInterface;
-use Wonde\Entities\School\RequestAccess\Contact;
+use Wonde\Resources\Requests\RequestAccess\Contact;
+use Wonde\Resources\Requests\SchoolAccessRequest;
 use Wonde\Tests\Feature\TestCase;
 
 class SchoolsTest extends TestCase
@@ -73,12 +74,12 @@ class SchoolsTest extends TestCase
             );
         });
 
-        $contacts = [
+        $schoolAccessRequest = new SchoolAccessRequest(
             new Contact('hello', 'world'),
             new Contact('foo', 'bar', emailAddress: 'test@wonde.local'),
-        ];
+        );
 
-        $requested = $this->client->schools->requestAccess('TEST-SCHOOL', ...$contacts);
+        $requested = $this->client->schools->requestAccess('TEST-SCHOOL', $schoolAccessRequest);
         self::assertTrue($requested->success);
         self::assertEquals('pending', $requested->state);
         self::assertEquals('Access request successfully received', $requested->message);

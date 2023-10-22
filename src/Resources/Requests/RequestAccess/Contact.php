@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wonde\Entities\School\RequestAccess;
+namespace Wonde\Resources\Requests\RequestAccess;
 
 class Contact implements \JsonSerializable
 {
