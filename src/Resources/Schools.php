@@ -13,10 +13,9 @@ class Schools extends Resource
 {
     public function get(string $id): School
     {
-        $response = $this->getRaw($id);
-        $decoded = $this->decodeJsonBody($response);
+        $json = $this->decodeJsonBody($this->getRaw($id));
 
-        return School::fromData($decoded['data']);
+        return School::fromData($json['data']);
     }
 
     public function all(): SchoolCollection
@@ -78,10 +77,10 @@ class Schools extends Resource
 
     private function getSchools(string $path = '', array $parameters = []): SchoolCollection
     {
-        $decoded = $this->decodeJsonBody($this->getRaw($path, $parameters));
+        $json = $this->decodeJsonBody($this->getRaw($path, $parameters));
         $schools = [];
 
-        foreach ($decoded['data'] as $school) {
+        foreach ($json['data'] as $school) {
             $schools[] = School::fromData($school);
         }
 
