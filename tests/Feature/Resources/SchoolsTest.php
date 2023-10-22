@@ -6,6 +6,7 @@ namespace Wonde\Tests\Feature\Resources;
 
 use Http\Message\RequestMatcher;
 use Psr\Http\Message\RequestInterface;
+use Wonde\Entities\School\RequestAccess\Contact;
 use Wonde\Tests\Feature\TestCase;
 
 class SchoolsTest extends TestCase
@@ -29,6 +30,60 @@ class SchoolsTest extends TestCase
 
         $school = $this->client->schools->get('A1930499544');
         self::assertEquals('Wonde Testing School', $school->name);
+    }
+
+    /** @test */
+    public function it_can_request_access_to_a_school()
+    {
+        $this->mockHttpClient->on(new class() implements RequestMatcher {
+            public function matches(RequestInterface $request): bool
+            {
+                $body = json_encode([
+                    'contacts' => [
+                        [
+                            'first_name' => 'hello',
+                            'last_name' => 'world',
+                            'phone_number' => null,
+                            'email_address' => null,
+                            'notes' => null,
+                        ],
+                        [
+                            'first_name' => 'foo',
+                            'last_name' => 'bar',
+                            'phone_number' => null,
+                            'email_address' => 'test@wonde.local',
+                            'notes' => null,
+                        ],
+                    ],
+                ]);
+
+                return (
+                    $request->getMethod() === 'POST'
+                    && $request->getUri()->getPath() === 'v1.0/schools/TEST-SCHOOL/request-access'
+                    && (string) $request->getBody() === $body
+                );
+            }
+        }, function () {
+            $json = json_encode([
+                'success' => true,
+                'state' => 'pending',
+                'message' => 'Access request successfully received',
+            ]);
+
+            return $this->httpFactory->createResponse()->withBody(
+                $this->httpFactory->createStream($json),
+            );
+        });
+
+        $contacts = [
+            new Contact('hello', 'world'),
+            new Contact('foo', 'bar', emailAddress: 'test@wonde.local'),
+        ];
+
+        $requested = $this->client->schools->requestAccess('TEST-SCHOOL', ...$contacts);
+        self::assertTrue($requested->success);
+        self::assertEquals('pending', $requested->state);
+        self::assertEquals('Access request successfully received', $requested->message);
     }
 
     /** @test */

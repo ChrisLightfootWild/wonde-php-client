@@ -7,6 +7,8 @@ namespace Wonde\Resources;
 use Psr\Http\Message\UriInterface;
 use Wonde\Entities\Collections\Schools as SchoolCollection;
 use Wonde\Entities\School;
+use Wonde\Entities\School\RequestAccess\Contact;
+use Wonde\Entities\School\RequestAccess\Requested;
 use Wonde\Entities\School\RequestAccess\Revoked;
 
 class Schools extends Resource
@@ -58,9 +60,15 @@ class Schools extends Resource
         return $this->getSchools('search');
     }
 
-    public function requestAccess(string $schoolId, $payload = [])
+    public function requestAccess(string $schoolId, Contact ...$contact): Requested
     {
-        // TODO
+        $stream = $this->client->streamFactory->createStream(json_encode([
+            'contacts' => $contact,
+        ]));
+
+        $json = $this->decodeJsonBody($this->postRaw("{$schoolId}/request-access", $stream));
+
+        return Requested::fromData($json);
     }
 
     public function revokeAccess(string $schoolId): Revoked
