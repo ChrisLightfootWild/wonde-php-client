@@ -57,7 +57,7 @@ class Schools extends Resource
 
     public function search(): SchoolCollection
     {
-        return $this->getSchools('search');
+        return $this->getSchools('all');
     }
 
     public function requestAccess(string $schoolId, Contact ...$contact): Requested
