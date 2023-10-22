@@ -29,3 +29,9 @@ dump(
     // Custom attendance codes, or just the default if none have been set.
     $client->school($school)->attendanceCodes->get(),
 );
+
+dump(
+    $client->meta->school($school->id),
+    $client->meta->accessControlList($school->id),
+    $client->meta->permissions($school->id),
+);
