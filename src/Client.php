@@ -17,8 +17,10 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Wonde\Entities\School;
 use Wonde\Resources\AttendanceCodes;
 use Wonde\Resources\Meta;
+use Wonde\Resources\School as SchoolResource;
 use Wonde\Resources\Schools;
 
 class Client
@@ -60,6 +62,13 @@ class Client
         );
 
         $this->buildServices();
+    }
+
+    public function school(School|string $school): SchoolResource
+    {
+        $school = $school instanceof School ? $school : $this->schools->get($school);
+
+        return new SchoolResource($this, $school);
     }
 
     protected function buildClient(HttpAsyncClientInterface $httpClient): void
