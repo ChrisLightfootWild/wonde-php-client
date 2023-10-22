@@ -12,9 +12,11 @@ use Wonde\Entities\Meta\School;
 
 class Meta extends Resource
 {
-    public function accessControlList(string $schoolId, bool $withUserType = false): AccessControlList
+    public function accessControlList(string $schoolId): AccessControlList
     {
-        $json = $this->decodeJsonBody($this->getRaw("{$schoolId}/acl"));
+        $json = $this->decodeJsonBody($this->getRaw("{$schoolId}/acl", [
+            'with_user_type' => true,
+        ]));
 
         return AccessControlList::fromData($json['data']);
     }
