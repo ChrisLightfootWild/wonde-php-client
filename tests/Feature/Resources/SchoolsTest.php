@@ -13,21 +13,16 @@ class SchoolsTest extends TestCase
     /** @test */
     public function it_can_get_a_school()
     {
-        $response = $this->httpFactory->createResponse()->withBody(
-            $this->httpFactory->createStreamFromFile(
-                __DIR__ . '/../../Fixtures/v1.0/schools/A1930499544/get-response.json',
-            ),
-        );
-
         $this->mockHttpClient->on(new class() implements RequestMatcher {
             public function matches(RequestInterface $request): bool
             {
-                return match ($request->getUri()->getPath()) {
-                    'v1.0/schools/A1930499544' => true,
-                    default => false,
-                };
+                return $request->getUri()->getPath() === 'v1.0/schools/A1930499544';
             }
-        }, $response);
+        }, fn () => $this->httpFactory->createResponse()->withBody(
+            $this->httpFactory->createStreamFromFile(
+                __DIR__ . '/../../Fixtures/v1.0/schools/A1930499544/get-response.json',
+            ),
+        ));
 
         $response = $this->client->schools->getRaw('A1930499544');
         self::assertEquals(200, $response->getStatusCode());
