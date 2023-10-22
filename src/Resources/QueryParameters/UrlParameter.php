@@ -6,7 +6,7 @@ namespace Wonde\Resources\QueryParameters;
 
 use Wonde\Contracts\Requests\QueryParameter;
 
-class Generic implements QueryParameter
+class UrlParameter implements QueryParameter
 {
     public function __construct(
         public readonly string $key,
