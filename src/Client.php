@@ -27,9 +27,9 @@ class Client
 {
     public const VERSION = '4.x';
 
-    public AttendanceCodes $attendanceCodes;
-    public Meta $meta;
-    public Schools $schools;
+    public readonly AttendanceCodes $attendanceCodes;
+    public readonly Meta $meta;
+    public readonly Schools $schools;
 
     public readonly ClientOptions $options;
     public readonly HttpAsyncClientInterface $httpAsyncClient;
