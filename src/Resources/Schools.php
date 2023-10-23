@@ -7,6 +7,7 @@ namespace Wonde\Resources;
 use Psr\Http\Message\UriInterface;
 use Wonde\Contracts\Requests\QueryParameter;
 use Wonde\Entities\Collections\Schools as SchoolCollection;
+use Wonde\Entities\Meta\Pagination;
 use Wonde\Entities\School;
 use Wonde\Entities\School\RequestAccess\Requested;
 use Wonde\Entities\School\RequestAccess\Revoked;
@@ -98,6 +99,10 @@ class Schools extends Resource
             $schools[] = School::fromData($school);
         }
 
-        return new SchoolCollection(...$schools);
+        return (new SchoolCollection(
+            $this->client,
+            Pagination::fromData($json['meta']['pagination']),
+            ...$schools,
+        ))->hydrateWith(static fn ($data) => School::fromData($data));
     }
 }

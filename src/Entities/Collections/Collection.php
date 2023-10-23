@@ -7,7 +7,7 @@ namespace Wonde\Entities\Collections;
 abstract class Collection implements \Iterator
 {
     private int $pointer = 0;
-    private array $items;
+    protected array $items;
 
     public function __construct(mixed ...$item)
     {
