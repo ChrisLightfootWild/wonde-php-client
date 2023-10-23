@@ -9,7 +9,7 @@ use Http\Mock\Client as MockHttpClient;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Wonde\Client;
 
-class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
     protected Client $client;
     protected HttpFactory $httpFactory;
