@@ -7,12 +7,13 @@ namespace Wonde\Resources\Schools;
 use Psr\Http\Message\UriInterface;
 use Wonde\Entities\AttendanceCode;
 use Wonde\Entities\Collections\AttendanceCodes as AttendanceCodesCollection;
+use Wonde\Util\JSON;
 
 class AttendanceCodes extends SchoolResource
 {
     public function get(): AttendanceCodesCollection
     {
-        $json = $this->decodeJsonBody($this->getRaw());
+        $json = JSON::decodeFromResponse($this->getRaw());
         $attendanceCodes = [];
 
         foreach ($json['data'] ?? [] as $item) {

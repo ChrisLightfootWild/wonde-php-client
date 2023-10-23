@@ -12,12 +12,13 @@ use Wonde\Entities\School;
 use Wonde\Entities\School\RequestAccess\Requested;
 use Wonde\Entities\School\RequestAccess\Revoked;
 use Wonde\Resources\Requests\SchoolAccessRequest;
+use Wonde\Util\JSON;
 
 class Schools extends Resource
 {
     public function get(string $id): School
     {
-        $json = $this->decodeJsonBody($this->getRaw($id));
+        $json = JSON::decodeFromResponse($this->getRaw($id));
 
         return School::fromData($json['data']);
     }
@@ -66,14 +67,14 @@ class Schools extends Resource
     {
         $stream = $this->client->streamFactory->createStream(json_encode($schoolAccessRequest));
 
-        $json = $this->decodeJsonBody($this->postRaw("{$schoolId}/request-access", $stream));
+        $json = JSON::decodeFromResponse($this->postRaw("{$schoolId}/request-access", $stream));
 
         return Requested::fromData($json);
     }
 
     public function revokeAccess(string $schoolId): Revoked
     {
-        $json = $this->decodeJsonBody($this->deleteRaw("{$schoolId}/revoke-access"));
+        $json = JSON::decodeFromResponse($this->deleteRaw("{$schoolId}/revoke-access"));
 
         return Revoked::fromData($json);
     }
@@ -92,7 +93,7 @@ class Schools extends Resource
             }
         }
 
-        $json = $this->decodeJsonBody($this->getRaw($path, $parameters));
+        $json = JSON::decodeFromResponse($this->getRaw($path, $parameters));
         $schools = [];
 
         foreach ($json['data'] as $school) {

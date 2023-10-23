@@ -38,23 +38,6 @@ abstract class Resource
         )->withPath("{$version}/{$path}");
     }
 
-    protected function decodeJsonBody(ResponseInterface $response): array
-    {
-        $json = json_decode((string) $response->getBody(), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $jsonErrorMessage = json_last_error_msg();
-
-            $this->client->logger->error('Decoding JSON body from response failed', [
-                'json-error-message' => $jsonErrorMessage,
-            ]);
-
-            throw new \ValueError($jsonErrorMessage);
-        }
-
-        return $json;
-    }
-
     protected function requestRaw(
         string $method,
         string $path = '',

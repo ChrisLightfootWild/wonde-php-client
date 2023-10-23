@@ -5,6 +5,7 @@ namespace Wonde\Entities\Collections;
 use Psr\Http\Message\ResponseInterface;
 use Wonde\Client;
 use Wonde\Entities\Meta\Pagination;
+use Wonde\Util\JSON;
 
 abstract class AutoPaginatingCollection extends Collection
 {
@@ -42,7 +43,7 @@ abstract class AutoPaginatingCollection extends Collection
             $this->client->requestFactory->createRequest('GET', $this->pagination->next),
         )->wait();
 
-        $json = json_decode((string) $response->getBody(), true);
+        $json = JSON::decodeFromResponse($response);
         $this->pagination = Pagination::fromData($json['meta']['pagination']);
 
         foreach ($json['data'] as $item) {

@@ -9,12 +9,13 @@ use Wonde\Entities\Collections\Permissions;
 use Wonde\Entities\Meta\AccessControlList;
 use Wonde\Entities\Meta\Permission;
 use Wonde\Entities\Meta\School;
+use Wonde\Util\JSON;
 
 class Meta extends Resource
 {
     public function accessControlList(string $schoolId): AccessControlList
     {
-        $json = $this->decodeJsonBody($this->getRaw("{$schoolId}/acl", [
+        $json = JSON::decodeFromResponse($this->getRaw("{$schoolId}/acl", [
             'with_user_type' => true,
         ]));
 
@@ -23,7 +24,7 @@ class Meta extends Resource
 
     public function permissions(string $schoolId): Permissions
     {
-        $json = $this->decodeJsonBody($this->getRaw("{$schoolId}/permissions"));
+        $json = JSON::decodeFromResponse($this->getRaw("{$schoolId}/permissions"));
         $permissions = [];
 
         foreach ($json['data'] as $item) {
@@ -35,7 +36,7 @@ class Meta extends Resource
 
     public function school(string $schoolId): School
     {
-        $json = $this->decodeJsonBody($this->getRaw($schoolId));
+        $json = JSON::decodeFromResponse($this->getRaw($schoolId));
 
         return School::fromData($json['data']);
     }
