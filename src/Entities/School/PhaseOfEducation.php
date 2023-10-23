@@ -13,4 +13,5 @@ enum PhaseOfEducation: string
     case PRIMARY = 'PRIMARY';
     case SECONDARY = 'SECONDARY';
     case SIXTEEN_PLUS = '16 PLUS';
+    case SPECIAL = 'SPECIAL';
 }
