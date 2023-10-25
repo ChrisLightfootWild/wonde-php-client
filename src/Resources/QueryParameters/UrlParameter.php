@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Wonde\Resources\QueryParameters;
 
-class UrlParameterInterface implements QueryParameterInterface
+class UrlParameter implements QueryParameterInterface
 {
     public function __construct(
         public readonly string $key,

@@ -7,7 +7,7 @@ namespace Wonde\Tests\Feature\Resources;
 use Http\Message\RequestMatcher;
 use Psr\Http\Message\RequestInterface;
 use Wonde\Entities\Collections\Schools;
-use Wonde\Resources\QueryParameters\UrlParameterInterface;
+use Wonde\Resources\QueryParameters\UrlParameter;
 use Wonde\Resources\Requests\RequestAccess\Contact;
 use Wonde\Resources\Requests\SchoolAccessRequest;
 use Wonde\Tests\Feature\TestCase;
@@ -134,7 +134,7 @@ class SchoolsTest extends TestCase
             ])),
         ));
 
-        $schools = $this->client->schools->search(new UrlParameterInterface('foo', 'bar'));
+        $schools = $this->client->schools->search(new UrlParameter('foo', 'bar'));
         self::assertInstanceOf(Schools::class, $schools);
     }
 }
