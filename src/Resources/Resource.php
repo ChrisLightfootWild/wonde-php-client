@@ -57,6 +57,14 @@ abstract class Resource
             $request = $request->withBody($stream);
         }
 
-        return $this->client->httpAsyncClient->sendAsyncRequest($request)->wait();
+        /** @var ResponseInterface $response */
+        $response = $this->client->httpAsyncClient->sendAsyncRequest($request)->wait();
+
+        $this->client->logger->debug('wonde-api-response', [
+            'uri' => (string) $request->getUri(),
+            'response' => (string) $response->getBody(),
+        ]);
+
+        return $response;
     }
 }

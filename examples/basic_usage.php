@@ -2,12 +2,26 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Wonde\Client;
 use Wonde\Resources\QueryParameters\Includes;
 
-$token = getenv('WONDE_API_TOKEN') ?: die('You must provide WONDE_API_TOKEN');
+$logger = new Logger('wonde-example', handlers: [
+    $stream = new StreamHandler(\STDOUT),
+]);
 
-$client = new Client($token);
+$token = getenv('WONDE_API_TOKEN');
+
+if (! $token) {
+    $logger->warning('You must provide WONDE_API_TOKEN', [
+        'example' => 'WONDE_API_TOKEN=<YOU_WONDE_TOKEN_GOES_HERE> php examples/basic_usage.php',
+    ]);
+
+    exit(1);
+}
+
+$client = new Client($token, logger: $logger);
 
 dump(
     $schools = $client->schools->approved(),
