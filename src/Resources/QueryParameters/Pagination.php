@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Wonde\Resources\QueryParameters;
 
-use Wonde\Contracts\Requests\QueryParameter;
-
-class Pagination implements QueryParameter
+class Pagination implements QueryParameterInterface
 {
     public function __construct(
         public readonly ?int $perPage = null,

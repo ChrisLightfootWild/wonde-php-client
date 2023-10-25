@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Wonde\Contracts\Requests;
+namespace Wonde\Resources\QueryParameters;
 
-interface QueryParameter
+interface QueryParameterInterface
 {
     public function toQueryString(): array;
 }

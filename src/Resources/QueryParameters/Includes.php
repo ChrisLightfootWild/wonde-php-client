@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Wonde\Resources\QueryParameters;
 
-use Wonde\Contracts\Requests\QueryParameter;
-
-class Includes implements QueryParameter
+class Includes implements QueryParameterInterface
 {
     private array $resources;
 

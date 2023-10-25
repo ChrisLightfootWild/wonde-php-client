@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Wonde\Resources;
 
 use Psr\Http\Message\UriInterface;
-use Wonde\Contracts\Requests\QueryParameter;
 use Wonde\Entities\Collections\Schools as SchoolCollection;
 use Wonde\Entities\Meta\Pagination;
 use Wonde\Entities\School;
 use Wonde\Entities\School\RequestAccess\Requested;
 use Wonde\Entities\School\RequestAccess\Revoked;
+use Wonde\Resources\QueryParameters\QueryParameterInterface;
 use Wonde\Resources\Requests\SchoolAccessRequest;
 use Wonde\Util\JSON;
 
@@ -23,42 +23,42 @@ class Schools extends Resource
         return School::fromData($json['data']);
     }
 
-    public function all(QueryParameter ...$queryParameter): SchoolCollection
+    public function all(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('all', ...$queryParameter);
     }
 
-    public function approved(QueryParameter ...$queryParameter): SchoolCollection
+    public function approved(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('', ...$queryParameter);
     }
 
-    public function audited(QueryParameter ...$queryParameter): SchoolCollection
+    public function audited(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('audited', ...$queryParameter);
     }
 
-    public function offline(QueryParameter ...$queryParameter): SchoolCollection
+    public function offline(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('offline', ...$queryParameter);
     }
 
-    public function pending(QueryParameter ...$queryParameter): SchoolCollection
+    public function pending(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('pending', ...$queryParameter);
     }
 
-    public function revoked(QueryParameter ...$queryParameter): SchoolCollection
+    public function revoked(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('revoked', ...$queryParameter);
     }
 
-    public function declined(QueryParameter ...$queryParameter): SchoolCollection
+    public function declined(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('declined', ...$queryParameter);
     }
 
-    public function search(QueryParameter ...$queryParameter): SchoolCollection
+    public function search(QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         return $this->getSchools('all', ...$queryParameter);
     }
@@ -84,7 +84,7 @@ class Schools extends Resource
         return parent::buildUri("schools/{$path}", $version);
     }
 
-    private function getSchools(string $path = '', QueryParameter ...$queryParameter): SchoolCollection
+    private function getSchools(string $path = '', QueryParameterInterface ...$queryParameter): SchoolCollection
     {
         $parameters = [];
         foreach ($queryParameter as $parameter) {
