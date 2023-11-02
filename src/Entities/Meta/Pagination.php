@@ -18,11 +18,11 @@ class Pagination
     public static function fromData(array $data): self
     {
         return new self(
-            next: $data['next'],
+            next: $data['next'] ?? null,
             previous: $data['previous'] ?? null,
             more: $data['more'] ?? false,
-            perPage: (int) $data['per_page'],
-            currentPage: (int) $data['current_page'],
+            perPage: (int) ($data['per_page'] ?? 0),
+            currentPage: (int) ($data['current_page'] ?? 1),
         );
     }
 }

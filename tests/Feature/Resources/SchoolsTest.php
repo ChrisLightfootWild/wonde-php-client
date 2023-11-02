@@ -131,6 +131,9 @@ class SchoolsTest extends TestCase
         }, fn () => $this->httpFactory->createResponse()->withBody(
             $this->httpFactory->createStream(json_encode([
                 'data' => [],
+                'meta' => [
+                    'pagination' => [],
+                ],
             ])),
         ));
 
