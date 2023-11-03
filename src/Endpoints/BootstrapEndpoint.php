@@ -1,5 +1,6 @@
 <?php namespace Wonde\Endpoints;
 
+use Composer\InstalledVersions;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
@@ -63,9 +64,26 @@ class BootstrapEndpoint
         return new Client([
             'headers' => [
                 'Authorization' => 'Basic ' . base64_encode($this->token . ':'),
-                'User-Agent'    => 'wonde-php-client-' . \Wonde\Client::version
+                'User-Agent'    => $this->userAgent(),
             ]
         ]);
+    }
+
+    private function userAgent(): string
+    {
+        $components = ['Wonde'];
+
+        $version = class_exists(InstalledVersions::class)
+            ? InstalledVersions::getPrettyVersion('wondeltd/php-client')
+            : \Wonde\Client::version;
+
+        $components[] = sprintf('(wondeltd/php-client; %s)', $version);
+
+        if (\Wonde\Client::$allowTelemetry) {
+            $components[] = sprintf('(%s; PHP/%s)', PHP_OS_FAMILY, PHP_VERSION);
+        }
+
+        return implode(' ', $components);
     }
 
     /**

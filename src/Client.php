@@ -43,6 +43,9 @@ class Client
      */
     private $logPath = '';
 
+    /** @var bool */
+    public static $allowTelemetry = true;
+
     /**
      * Client constructor.
      */
