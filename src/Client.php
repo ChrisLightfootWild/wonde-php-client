@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Wonde;
 
+use Composer\InstalledVersions;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\Plugin\DecoderPlugin;
-use Http\Client\Common\Plugin\HeaderSetPlugin;
+use Http\Client\Common\Plugin\HeaderAppendPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\HttpAsyncClient as HttpAsyncClientInterface;
 use Http\Discovery\HttpAsyncClientDiscovery;
@@ -76,8 +77,8 @@ class Client
         $this->httpAsyncClient = new PluginClient($httpClient, [
             new AuthenticationPlugin(new Bearer($this->token)),
             new DecoderPlugin(),
-            new HeaderSetPlugin([
-                'User-Agent' => 'wonde-php-client-' . static::VERSION,
+            new HeaderAppendPlugin([
+                'User-Agent' => $this->userAgent(),
             ]),
         ]);
     }
@@ -87,5 +88,22 @@ class Client
         $this->attendanceCodes = new AttendanceCodes($this);
         $this->meta = new Meta($this);
         $this->schools = new Schools($this);
+    }
+
+    private function userAgent(): string
+    {
+        $components = ['Wonde'];
+
+        $version = class_exists(InstalledVersions::class)
+            ? InstalledVersions::getPrettyVersion('wondeltd/php-client')
+            : self::VERSION;
+
+        $components[] = sprintf('(wondeltd/php-client; %s)', $version);
+
+        if ($this->options->allowTelemetry) {
+            $components[] = sprintf('(%s; PHP/%s)', PHP_OS_FAMILY, PHP_VERSION);
+        }
+
+        return implode(' ', $components);
     }
 }
