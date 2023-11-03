@@ -11,7 +11,7 @@ Using Composer:
 ```json
 {
   "require": {
-    "wondeltd/php-client": "3.*"
+    "wondeltd/php-client": "^3.1"
   }
 }
 ```
@@ -24,7 +24,7 @@ composer require wondeltd/php-client
 
 ## Early Release
 
-If you wish to get early access to new endpoints / improvements please set your package version to `dev-master`.
+If you wish to get early access to new endpoints / improvements please set your package version to `3.x-dev`.
 
 **Important Note:** Wonde strongly recommends locking to a stable version on production.
 
