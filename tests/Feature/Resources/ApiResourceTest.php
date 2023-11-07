@@ -44,4 +44,35 @@ class ApiResourceTest extends TestCase
             'meta' => [],
         ], $data);
     }
+
+    /** @test */
+    public function it_can_post_an_endpoint()
+    {
+        $mockResponse = $this->httpFactory->createResponse();
+        $mockResponse = $mockResponse->withBody($this->httpFactory->createStream('{"id":"test-id"}'));
+
+        $this->mockHttpClient->on(new class($this) implements RequestMatcher {
+            public function __construct(
+                private readonly TestCase $testCase,
+            ) {
+            }
+
+            public function matches(RequestInterface $request): bool
+            {
+                $this->testCase::assertEquals('POST', $request->getMethod());
+                $this->testCase::assertEquals('v1.0/examples', $request->getUri()->getPath());
+                $this->testCase::assertEquals('{"payload":"..."}', (string) $request->getBody());
+
+                return true;
+            }
+        }, $mockResponse);
+
+        $data = $this->client->api->post('examples', [
+            'payload' => '...',
+        ]);
+
+        self::assertEquals([
+            'id' => 'test-id',
+        ], $data);
+    }
 }
