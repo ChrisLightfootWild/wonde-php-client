@@ -19,6 +19,7 @@ use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Wonde\Entities\School;
+use Wonde\Resources\ApiResource;
 use Wonde\Resources\AttendanceCodes;
 use Wonde\Resources\Meta;
 use Wonde\Resources\School as SchoolResource;
@@ -28,6 +29,7 @@ class Client
 {
     public const VERSION = '4.x';
 
+    public readonly ApiResource $api;
     public readonly AttendanceCodes $attendanceCodes;
     public readonly Meta $meta;
     public readonly Schools $schools;
@@ -85,6 +87,7 @@ class Client
 
     protected function buildServices(): void
     {
+        $this->api = new ApiResource($this);
         $this->attendanceCodes = new AttendanceCodes($this);
         $this->meta = new Meta($this);
         $this->schools = new Schools($this);
