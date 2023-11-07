@@ -21,7 +21,7 @@ class ApiResource extends Resource
         )));
     }
 
-    public function delete(string $endpoint): array
+    public function delete(string $endpoint): ?array
     {
         return JSON::decodeFromResponse($this->deleteRaw($endpoint));
     }

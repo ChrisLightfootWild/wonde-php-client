@@ -75,4 +75,25 @@ class ApiResourceTest extends TestCase
             'id' => 'test-id',
         ], $data);
     }
+
+    /** @test */
+    public function it_can_delete_an_endpoint()
+    {
+        $this->mockHttpClient->on(new class($this) implements RequestMatcher {
+            public function __construct(
+                private readonly TestCase $testCase,
+            ) {
+            }
+
+            public function matches(RequestInterface $request): bool
+            {
+                $this->testCase::assertEquals('DELETE', $request->getMethod());
+                $this->testCase::assertEquals('v1.0/examples/123', $request->getUri()->getPath());
+
+                return true;
+            }
+        }, $this->httpFactory->createResponse());
+
+        self::assertNull($this->client->api->delete('examples/123'));
+    }
 }
