@@ -62,6 +62,7 @@ class ApiResourceTest extends TestCase
                 $this->testCase::assertEquals('POST', $request->getMethod());
                 $this->testCase::assertEquals('v1.0/examples', $request->getUri()->getPath());
                 $this->testCase::assertEquals('{"payload":"..."}', (string) $request->getBody());
+                $this->testCase::assertEquals('application/json', $request->getHeaderLine('Content-Type'));
 
                 return true;
             }

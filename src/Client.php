@@ -6,6 +6,7 @@ namespace Wonde;
 
 use Composer\InstalledVersions;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
+use Http\Client\Common\Plugin\ContentTypePlugin;
 use Http\Client\Common\Plugin\DecoderPlugin;
 use Http\Client\Common\Plugin\HeaderAppendPlugin;
 use Http\Client\Common\PluginClient;
@@ -78,6 +79,7 @@ class Client
     {
         $this->httpAsyncClient = new PluginClient($httpClient, [
             new AuthenticationPlugin(new Bearer($this->token)),
+            new ContentTypePlugin(),
             new DecoderPlugin(),
             new HeaderAppendPlugin([
                 'User-Agent' => $this->userAgent(),
